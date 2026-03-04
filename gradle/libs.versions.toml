@@ -14,7 +14,7 @@ retrofit = "2.11.0"
 okhttp = "4.12.0"
 datastore = "1.1.1"
 security = "1.1.0-alpha06"
-coroutines = "1.9.0"
+coroutines = "1.10.2"
 ksp = "2.0.21-1.0.28"
 kotlinxSerialization = "1.7.3"
 navigation = "2.8.4"
@@ -22,6 +22,8 @@ room = "2.6.1"
 paging = "3.3.4"
 adaptive = "1.0.0"
 splashscreen = "1.0.1"
+mockk = "1.14.9"
+turbine = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -69,6 +71,7 @@ androidx-security-crypto = { group = "androidx.security", name = "security-crypt
 
 # Coroutines
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 
 # Kotlinx Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
@@ -81,6 +84,34 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 # Paging
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+
+# Testing
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+
+[bundles]
+compose = [
+    "androidx-compose-ui",
+    "androidx-compose-ui-graphics",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-compose-material3",
+    "androidx-compose-material3-windowSizeClass",
+    "androidx-compose-material3-adaptive",
+    "androidx-compose-material3-adaptive-layout",
+    "androidx-compose-material3-adaptive-navigation"
+]
+retrofit = [
+    "retrofit",
+    "retrofit-converter-kotlinx-serialization",
+    "okhttp",
+    "okhttp-logging-interceptor"
+]
+test = [
+    "junit",
+    "mockk",
+    "kotlinx-coroutines-test",
+    "turbine"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
