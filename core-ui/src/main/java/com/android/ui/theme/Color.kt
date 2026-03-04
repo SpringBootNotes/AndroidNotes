@@ -1,4 +1,4 @@
-package com.android.notes.ui.theme
+package com.android.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
