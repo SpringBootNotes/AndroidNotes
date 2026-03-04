@@ -1,4 +1,4 @@
-package com.android.auth.login.data.models
+package com.android.login.data.models
 
 import kotlinx.serialization.Serializable
 

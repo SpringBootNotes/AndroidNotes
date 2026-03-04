@@ -21,7 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Notes"
 include(":app")
-include(":feature-auth")
+include(":feature-login")
 include(":feature-notes")
 include(":core-network")
 include(":core-data")

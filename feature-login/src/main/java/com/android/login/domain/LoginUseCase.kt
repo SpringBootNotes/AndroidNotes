@@ -1,6 +1,6 @@
-package com.android.auth.login.domain
+package com.android.login.domain
 
-import com.android.auth.login.data.LoginRepository
+import com.android.login.data.LoginRepository
 import javax.inject.Inject
 
 interface LoginUseCase {

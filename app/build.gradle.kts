@@ -46,7 +46,7 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":core-network"))
     implementation(project(":core-data"))
-    implementation(project(":feature-auth"))
+    implementation(project(":feature-login"))
     implementation(project(":feature-notes"))
 
     // Compose & Core

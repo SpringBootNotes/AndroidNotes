@@ -1,7 +1,7 @@
-package com.android.auth.login.data
+package com.android.login.data
 
-import com.android.auth.login.data.models.LoginRequest
-import com.android.auth.login.data.models.LoginResponse
+import com.android.login.data.models.LoginRequest
+import com.android.login.data.models.LoginResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 

@@ -1,10 +1,10 @@
-package com.android.auth.login.di
+package com.android.login.di
 
-import com.android.auth.login.data.LoginApi
-import com.android.auth.login.data.LoginRepository
-import com.android.auth.login.data.LoginRepositoryDefault
-import com.android.auth.login.domain.LoginUseCase
-import com.android.auth.login.domain.LoginUseCaseDefault
+import com.android.login.data.LoginApi
+import com.android.login.data.LoginRepository
+import com.android.login.data.LoginRepositoryDefault
+import com.android.login.domain.LoginUseCase
+import com.android.login.domain.LoginUseCaseDefault
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
