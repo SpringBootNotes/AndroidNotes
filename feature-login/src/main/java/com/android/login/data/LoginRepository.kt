@@ -21,13 +21,19 @@ class LoginRepositoryDefault @Inject constructor(private val loginApi: LoginApi)
                 refreshToken = result.refreshToken
             )
         } catch (_: HttpException) {
-            // 2. Handle specific API errors (401, 404, etc)
-            LoginUseCase.LoginResult.Error("Invalid email or password")
+            // Handle specific API errors (401, 404, etc)
+            LoginUseCase.LoginResult.Error(INVALID_CREDENTIALS_ERROR_MESSAGE)
         } catch (_: IOException) {
-            // 3. Handle network/connection errors
-            LoginUseCase.LoginResult.Error("No internet connection")
+            // Handle network/connection errors
+            LoginUseCase.LoginResult.Error(NO_INTERNET_CONNECTION_ERROR_MESSAGE)
         } catch (_: Exception) {
-            LoginUseCase.LoginResult.Error("An unexpected error occurred")
+            LoginUseCase.LoginResult.Error(UNKNOWN_ERROR_MESSAGE)
         }
+    }
+
+    internal companion object {
+        const val INVALID_CREDENTIALS_ERROR_MESSAGE = "Invalid email or password"
+        const val NO_INTERNET_CONNECTION_ERROR_MESSAGE = "No internet connection"
+        const val UNKNOWN_ERROR_MESSAGE = "An unexpected error occurred"
     }
 }
