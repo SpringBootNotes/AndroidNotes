@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -43,6 +44,7 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":core-network"))
     implementation(project(":core-data"))
+    implementation(project(":core-dispatchers"))
 
     // Compose Bundle
     implementation(platform(libs.androidx.compose.bom))
