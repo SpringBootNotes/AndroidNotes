@@ -23,3 +23,4 @@ rootProject.name = "Notes"
 include(":app")
 include(":feature-auth")
 include(":feature-notes")
+include(":core-network")
