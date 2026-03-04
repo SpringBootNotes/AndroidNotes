@@ -17,7 +17,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         // Default base URL
-        buildConfigField("String", "BASE_URL", "\"https://api.dev-url.com/\"")
+        buildConfigField("String", "BASE_URL", "\"https://localhost:8080/\"")
     }
 
     buildFeatures {
