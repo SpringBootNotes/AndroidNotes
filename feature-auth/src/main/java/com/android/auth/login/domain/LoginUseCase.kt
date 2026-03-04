@@ -1,0 +1,22 @@
+package com.android.auth.login.domain
+
+import com.android.auth.login.data.LoginRepository
+import javax.inject.Inject
+
+interface LoginUseCase {
+    suspend operator fun invoke(email: String, password: String): LoginResult
+
+    sealed class LoginResult {
+        data class Success(val userId: String, val accessToken: String, val refreshToken: String): LoginResult()
+        data object Error: LoginResult()
+    }
+}
+
+class LoginUseCaseDefault @Inject constructor(
+    private val loginRepository: LoginRepository
+): LoginUseCase {
+    override suspend fun invoke(email: String, password: String): LoginUseCase.LoginResult {
+        return loginRepository.login(email, password)
+    }
+
+}
