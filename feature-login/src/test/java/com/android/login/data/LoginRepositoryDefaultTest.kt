@@ -1,15 +1,11 @@
 package com.android.login.data
 
-import com.android.login.data.LoginRepositoryDefault.Companion.INVALID_CREDENTIALS_ERROR_MESSAGE
-import com.android.login.data.LoginRepositoryDefault.Companion.NO_INTERNET_CONNECTION_ERROR_MESSAGE
-import com.android.login.data.LoginRepositoryDefault.Companion.UNKNOWN_ERROR_MESSAGE
 import com.android.login.data.models.LoginRequest
 import com.android.login.data.models.LoginResponse
 import com.android.login.domain.LoginUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import retrofit2.HttpException
@@ -41,24 +37,24 @@ class LoginRepositoryDefaultTest {
     }
 
     @Test
-    fun `GIVEN loginApi returns HttpException WHEN login called THEN return LoginResult Error with invalid credentials message`() = runTest {
+    fun `GIVEN loginApi returns HttpException WHEN login called THEN return InvalidCredentialsError`() = runTest {
         coEvery { loginApi.login(loginRequest) } throws HttpException(mockk(relaxed = true))
         val result = repository.login(email, password)
-        assertEquals( LoginUseCase.LoginResult.Error(message =  INVALID_CREDENTIALS_ERROR_MESSAGE), result)
+        assertTrue(result is LoginUseCase.LoginResult.InvalidCredentialsError)
     }
 
     @Test
-    fun `GIVEN loginApi returns IOException WHEN login called THEN return LoginResult Error with no internet message`() = runTest {
+    fun `GIVEN loginApi returns IOException WHEN login called THEN return NetworkError`() = runTest {
         coEvery { loginApi.login(loginRequest) } throws IOException()
         val result = repository.login(email, password)
-        assertEquals( LoginUseCase.LoginResult.Error(message =  NO_INTERNET_CONNECTION_ERROR_MESSAGE), result)
+        assertTrue( result is LoginUseCase.LoginResult.NetworkError )
     }
 
     @Test
-    fun `GIVEN loginApi returns other error WHEN login called THEN return LoginResult Error with unknown error message`() = runTest {
+    fun `GIVEN loginApi returns other error WHEN login called THEN return GenericError`() = runTest {
         coEvery { loginApi.login(loginRequest) } throws RuntimeException("Some other error")
         val result = repository.login(email, password)
-        assertEquals( LoginUseCase.LoginResult.Error(message =  UNKNOWN_ERROR_MESSAGE), result)
+        assertTrue(result is LoginUseCase.LoginResult.GenericError)
     }
 
 }

@@ -21,22 +21,11 @@ class LoginUseCaseDefaultTest {
             refreshToken = "refreshToken"
         )
 
-    private val loginResultError =
-        LoginUseCase.LoginResult.Error(message = "something went wrong")
-
     @Test
-    fun `GIVEN loginRepository returns Success WHEN loginUseCase called THEN Success result returned`() =
+    fun `WHEN loginUseCase called THEN loginRepository login result returned`() =
         runTest {
             coEvery { loginRepository.login(email, password) } returns loginResultSuccess
             val result = loginUseCase(email, password)
             assertEquals(loginResultSuccess, result)
-        }
-
-    @Test
-    fun `GIVEN loginRepository returns Error WHEN loginUseCase called THEN Error result returned`() =
-        runTest {
-            coEvery { loginRepository.login(email, password) } returns loginResultError
-            val result = loginUseCase(email, password)
-            assertEquals(loginResultError, result)
         }
 }

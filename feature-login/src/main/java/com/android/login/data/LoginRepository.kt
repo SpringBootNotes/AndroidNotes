@@ -22,18 +22,12 @@ class LoginRepositoryDefault @Inject constructor(private val loginApi: LoginApi)
             )
         } catch (_: HttpException) {
             // Handle specific API errors (401, 404, etc)
-            LoginUseCase.LoginResult.Error(INVALID_CREDENTIALS_ERROR_MESSAGE)
+            LoginUseCase.LoginResult.InvalidCredentialsError
         } catch (_: IOException) {
             // Handle network/connection errors
-            LoginUseCase.LoginResult.Error(NO_INTERNET_CONNECTION_ERROR_MESSAGE)
+            LoginUseCase.LoginResult.NetworkError
         } catch (_: Exception) {
-            LoginUseCase.LoginResult.Error(UNKNOWN_ERROR_MESSAGE)
+            LoginUseCase.LoginResult.GenericError
         }
-    }
-
-    internal companion object {
-        const val INVALID_CREDENTIALS_ERROR_MESSAGE = "Invalid email or password"
-        const val NO_INTERNET_CONNECTION_ERROR_MESSAGE = "No internet connection"
-        const val UNKNOWN_ERROR_MESSAGE = "An unexpected error occurred"
     }
 }
