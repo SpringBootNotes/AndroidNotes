@@ -4,17 +4,13 @@ import com.android.data.data.EncryptedTokenRepository
 import javax.inject.Inject
 
 interface ClearTokensUseCase {
-    operator fun invoke(userId: String, accessToken: String, refreshToken: String)
+    operator fun invoke()
 }
 
 class ClearTokensUseCaseDefault @Inject constructor(
     private val encryptedTokenRepository: EncryptedTokenRepository
 ): ClearTokensUseCase {
-    override fun invoke(
-        userId: String,
-        accessToken: String,
-        refreshToken: String
-    ) {
+    override fun invoke() {
         encryptedTokenRepository.clear()
     }
 }
