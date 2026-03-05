@@ -1,5 +1,6 @@
 package com.android.login.data
 
+import com.android.data.domain.SaveTokensUseCase
 import com.android.login.data.models.LoginRequest
 import com.android.login.domain.LoginUseCase
 import retrofit2.HttpException
@@ -10,11 +11,20 @@ interface LoginRepository {
     suspend fun login(email: String, password: String): LoginUseCase.LoginResult
 }
 
-class LoginRepositoryDefault @Inject constructor(private val loginApi: LoginApi) : LoginRepository {
+class LoginRepositoryDefault @Inject constructor(
+    private val loginApi: LoginApi,
+    private val saveTokensUseCase: SaveTokensUseCase
+) : LoginRepository {
     override suspend fun login(email: String, password: String): LoginUseCase.LoginResult {
         return try {
             val result = loginApi.login(LoginRequest(email, password))
-            // Save tokens and userId
+
+            saveTokensUseCase(
+                userId = result.userId,
+                accessToken = result.accessToken,
+                refreshToken = result.refreshToken
+            )
+
             return LoginUseCase.LoginResult.Success
         } catch (_: HttpException) {
             // Handle specific API errors (401, 404, etc)
