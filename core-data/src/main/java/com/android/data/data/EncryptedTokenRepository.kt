@@ -16,7 +16,7 @@ interface EncryptedTokenRepository {
 }
 
 class EncryptedTokenRepositoryDefault @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext private val context: Context
 ): EncryptedTokenRepository {
 
     private val masterKey = MasterKey.Builder(context)
