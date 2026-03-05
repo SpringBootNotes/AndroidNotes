@@ -15,11 +15,7 @@ class LoginUseCaseDefaultTest {
     private val password = "Password1!"
 
     private val loginResultSuccess =
-        LoginUseCase.LoginResult.Success(
-            userId = "userId",
-            accessToken = "accessToken",
-            refreshToken = "refreshToken"
-        )
+        LoginUseCase.LoginResult.Success
 
     @Test
     fun `WHEN loginUseCase called THEN loginRepository login result returned`() =

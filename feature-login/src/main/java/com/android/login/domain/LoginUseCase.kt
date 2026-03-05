@@ -7,7 +7,7 @@ interface LoginUseCase {
     suspend operator fun invoke(email: String, password: String): LoginResult
 
     sealed class LoginResult {
-        data class Success(val userId: String, val accessToken: String, val refreshToken: String): LoginResult()
+        data object Success: LoginResult()
         data object InvalidCredentialsError: LoginResult()
         data object NetworkError: LoginResult()
         data object GenericError: LoginResult()

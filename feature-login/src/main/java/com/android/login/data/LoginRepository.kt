@@ -14,12 +14,8 @@ class LoginRepositoryDefault @Inject constructor(private val loginApi: LoginApi)
     override suspend fun login(email: String, password: String): LoginUseCase.LoginResult {
         return try {
             val result = loginApi.login(LoginRequest(email, password))
-
-            return LoginUseCase.LoginResult.Success(
-                userId = result.userId,
-                accessToken = result.accessToken,
-                refreshToken = result.refreshToken
-            )
+            // Save tokens and userId
+            return LoginUseCase.LoginResult.Success
         } catch (_: HttpException) {
             // Handle specific API errors (401, 404, etc)
             LoginUseCase.LoginResult.InvalidCredentialsError
