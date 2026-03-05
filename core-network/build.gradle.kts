@@ -43,6 +43,9 @@ android {
 }
 
 dependencies {
+    // Project Modules
+    implementation(project(":core-data"))
+
     // Retrofit Bundle
     api(libs.bundles.retrofit)
     implementation(libs.kotlinx.serialization.json)

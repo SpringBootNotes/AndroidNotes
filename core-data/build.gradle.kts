@@ -41,7 +41,6 @@ room {
 
 dependencies {
     // Project Modules
-    implementation(project(":core-network"))
     implementation(project(":core-dispatchers"))
 
     // Room
