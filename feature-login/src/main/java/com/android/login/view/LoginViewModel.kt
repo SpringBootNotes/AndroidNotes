@@ -94,15 +94,16 @@ internal class LoginViewModel @Inject constructor(
 
 internal data class LoginState(
     val isLoading: Boolean = false,
-    val email: String? = null,
-    val password: String? = null,
+    val email: String = "",
+    val password: String = "",
     val rememberMeIsChecked: Boolean = false,
     val showInvalidCredentialsErrorDialog: Boolean = false,
     val showNetworkErrorDialog: Boolean = false,
     val showGenericErrorDialog: Boolean = false
 ) {
     private val emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$".toRegex()
-    val emailIsValid: Boolean = email?.let { emailRegex.matches(email) } ?: false
+    val showInvalidEmailError = !email.isNullOrBlank() && !emailRegex.matches(email)
+    val emailIsValid: Boolean = email.isNotBlank() && emailRegex.matches(email)
     val loginButtonEnabled: Boolean =
         !email.isNullOrBlank() && !password.isNullOrBlank() && emailIsValid
 }
