@@ -25,6 +25,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,7 +42,11 @@ public fun LoginScreenRoute() {
 private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
-    LoginScreenContent(state = state.value, onEmailChanged = viewModel::onEmailChanged)
+    LoginScreenContent(
+        state = state.value,
+        onEmailChanged = viewModel::onEmailChanged,
+        onPasswordChanged = viewModel::onPasswordChanged
+    )
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
@@ -59,7 +64,11 @@ private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
 }
 
 @Composable
-private fun LoginScreenContent(state: LoginState, onEmailChanged: (String) -> Unit) {
+private fun LoginScreenContent(
+    state: LoginState,
+    onEmailChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit
+) {
     val focusManager = LocalFocusManager.current
 
     Box(
@@ -84,7 +93,7 @@ private fun LoginScreenContent(state: LoginState, onEmailChanged: (String) -> Un
                 isError = state.showInvalidEmailError
             )
             Spacer(modifier = Modifier.height(16.dp))
-            //PasswordTextField()
+            PasswordTextField(password = state.password, onPasswordChanged = onPasswordChanged)
             Spacer(modifier = Modifier.height(16.dp))
             //RememberMeToggle()
             Spacer(modifier = Modifier.height(32.dp))
@@ -137,12 +146,47 @@ private fun EmailTextFieldLabel() {
 
 @Composable
 private fun EmailTextFieldPlaceholder() {
-    Text(text = stringResource(id = R.string.email_field_placeholder), color = Color.Gray)
+    Text(
+        text = stringResource(id = R.string.email_field_placeholder),
+        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+    )
+}
+
+@Composable
+private fun PasswordTextField(
+    password: String,
+    onPasswordChanged: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = password,
+        onValueChange = onPasswordChanged,
+        label = { PasswordTextFieldLabel() },
+        placeholder = { PasswordTextFieldPlaceholder() },
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(4.dp),
+        visualTransformation = PasswordVisualTransformation(),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+    )
+}
+
+@Composable
+private fun PasswordTextFieldLabel() {
+    Text(text = stringResource(id = R.string.password_field_label))
+}
+
+@Composable
+private fun PasswordTextFieldPlaceholder() {
+    Text(
+        text = stringResource(id = R.string.password_field_placeholder),
+        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+    )
 }
 
 
 @Preview
 @Composable
 private fun LoginScreenContentPreview() {
-    LoginScreenContent(state = LoginState(), onEmailChanged = {})
+    LoginScreenContent(state = LoginState(), onEmailChanged = {}, onPasswordChanged = {})
 }
