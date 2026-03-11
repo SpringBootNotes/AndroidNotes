@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="email_field_label">Email</string>
+    <string name="email_field_placeholder">name@email.com</string>
+    <string name="invalid_email_error">Please enter a valid email</string>
+    <string name="password_field_label">Password"</string>
     <string name="login_button_text">Login</string>
 </resources>
