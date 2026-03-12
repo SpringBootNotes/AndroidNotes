@@ -1,20 +1,24 @@
 package com.android.login.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -54,7 +58,8 @@ private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
     LoginScreenContent(
         state = state.value,
         onEmailChanged = viewModel::onEmailChanged,
-        onPasswordChanged = viewModel::onPasswordChanged
+        onPasswordChanged = viewModel::onPasswordChanged,
+        onRememberMeChecked = viewModel::onRememberMeClicked
     )
 
     LaunchedEffect(Unit) {
@@ -76,7 +81,8 @@ private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
 private fun LoginScreenContent(
     state: LoginState,
     onEmailChanged: (String) -> Unit,
-    onPasswordChanged: (String) -> Unit
+    onPasswordChanged: (String) -> Unit,
+    onRememberMeChecked: (Boolean) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -104,7 +110,11 @@ private fun LoginScreenContent(
             Spacer(modifier = Modifier.height(16.dp))
             PasswordTextField(password = state.password, onPasswordChanged = onPasswordChanged)
             Spacer(modifier = Modifier.height(16.dp))
-            //RememberMeToggle()
+            RememberMeToggle(
+                isRememberMeChecked = state.rememberMeIsChecked,
+                onCheckedChange = onRememberMeChecked,
+                modifier = Modifier.fillMaxWidth()
+            )
             Spacer(modifier = Modifier.height(32.dp))
             //LoginButton()
             Spacer(modifier = Modifier.height(32.dp))
@@ -234,8 +244,31 @@ private fun PasswordVisibilityIconButton(
     }
 }
 
+@Composable
+private fun RememberMeToggle(
+    isRememberMeChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.clickable { onCheckedChange(!isRememberMeChecked) },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = isRememberMeChecked,
+            onCheckedChange = onCheckedChange
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(text = stringResource(id = R.string.remember_me_toggle_label))
+    }
+}
+
 @Preview
 @Composable
 private fun LoginScreenContentPreview() {
-    LoginScreenContent(state = LoginState(), onEmailChanged = {}, onPasswordChanged = {})
+    LoginScreenContent(
+        state = LoginState(),
+        onEmailChanged = {},
+        onPasswordChanged = {},
+        onRememberMeChecked = {})
 }

@@ -63,8 +63,8 @@ internal class LoginViewModel @Inject constructor(
         _state.update { it.copy(password = password) }
     }
 
-    internal fun onRememberMeClicked() {
-        _state.update { it.copy(rememberMeIsChecked = !it.rememberMeIsChecked) }
+    internal fun onRememberMeClicked(newValue: Boolean) {
+        _state.update { it.copy(rememberMeIsChecked = newValue) }
     }
 
     internal fun onSignUpClicked() {
@@ -111,7 +111,7 @@ internal data class LoginState(
     val showGenericErrorDialog: Boolean = false
 ) {
     private val emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$".toRegex()
-    val showInvalidEmailError = !email.isNotBlank() && !emailRegex.matches(email)
+    val showInvalidEmailError = email.isNotBlank() && !emailRegex.matches(email)
     val emailIsValid: Boolean = email.isNotBlank() && emailRegex.matches(email)
     val loginButtonEnabled: Boolean =
         email.isNotBlank() && !password.isNotBlank() && emailIsValid

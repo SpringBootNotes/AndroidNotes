@@ -9,4 +9,5 @@
     <string name="hide_password_content_description">Hide password</string>
     <string name="show_password_content_description">Show password</string>
     <string name="login_button_text">Login</string>
+    <string name="remember_me_toggle_label">Remember me</string>
 </resources>
