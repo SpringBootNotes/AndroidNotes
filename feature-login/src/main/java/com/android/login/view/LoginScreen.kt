@@ -46,6 +46,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.ui.R
 import com.android.ui.components.LoadingSpinnerOverlay
+import com.android.ui.components.dialogs.GenericErrorDialog
+import com.android.ui.components.dialogs.NetworkErrorDialog
 
 
 @Composable
@@ -66,7 +68,16 @@ private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
         onLoginButtonClicked = viewModel::onLoginButtonClicked
     )
 
-    if(state.value.isLoading) {
+    LoginDialogs(
+        showInvalidCredentialsErrorDialog = state.value.showInvalidCredentialsErrorDialog,
+        showNetworkErrorDialog = state.value.showNetworkErrorDialog,
+        showGenericErrorDialog = state.value.showGenericErrorDialog,
+        dismissInvalidCredentialsDialog = viewModel::dismissInvalidCredentialsErrorDialog,
+        dismissNetworkErrorDialog = viewModel::dismissNetworkErrorDialog,
+        dismissGenericErrorDialog = viewModel::dismissGenericErrorDialog
+    )
+
+    if (state.value.isLoading) {
         LoadingSpinnerOverlay()
     }
 
@@ -298,6 +309,26 @@ private fun LoginButton(
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
+    }
+}
+
+@Composable
+private fun LoginDialogs(
+    showInvalidCredentialsErrorDialog: Boolean,
+    showNetworkErrorDialog: Boolean,
+    showGenericErrorDialog: Boolean,
+    dismissInvalidCredentialsDialog: () -> Unit,
+    dismissNetworkErrorDialog: () -> Unit,
+    dismissGenericErrorDialog: () -> Unit
+) {
+    if(showInvalidCredentialsErrorDialog) {
+        InvalidCredentialsErrorDialog(onDismissRequest = dismissInvalidCredentialsDialog)
+    }
+    if(showNetworkErrorDialog) {
+        NetworkErrorDialog(onDismissRequest = dismissNetworkErrorDialog)
+    }
+    if(showGenericErrorDialog) {
+        GenericErrorDialog(onDismissRequest = dismissGenericErrorDialog)
     }
 }
 
