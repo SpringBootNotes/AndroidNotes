@@ -16,8 +16,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        // Default base URL
-        buildConfigField("String", "BASE_URL", "\"https://localhost:8080/\"")
+        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8080/\"")
     }
 
     buildFeatures {
@@ -31,7 +30,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // Production URL
             buildConfigField("String", "BASE_URL", "\"https://api.production-url.com/\"")
         }
     }
@@ -45,11 +43,11 @@ android {
 }
 
 dependencies {
-    // Networking
-    api(libs.retrofit)
-    api(libs.retrofit.converter.kotlinx.serialization)
-    api(libs.okhttp)
-    api(libs.okhttp.logging.interceptor)
+    // Project Modules
+    implementation(project(":core-data"))
+
+    // Retrofit Bundle
+    api(libs.bundles.retrofit)
     implementation(libs.kotlinx.serialization.json)
 
     // Hilt
@@ -61,7 +59,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     // Testing
-    testImplementation(libs.junit)
+    testImplementation(libs.bundles.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

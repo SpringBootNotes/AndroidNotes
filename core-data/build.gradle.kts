@@ -41,7 +41,7 @@ room {
 
 dependencies {
     // Project Modules
-    implementation(project(":core-network"))
+    implementation(project(":core-dispatchers"))
 
     // Room
     implementation(libs.androidx.room.runtime)
@@ -61,9 +61,9 @@ dependencies {
 
     // Core
     implementation(libs.androidx.core.ktx)
-    
+
     // Testing
-    testImplementation(libs.junit)
+    testImplementation(libs.bundles.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

@@ -1,5 +1,6 @@
 package com.android.network.di
 
+import com.android.network.AuthInterceptor
 import com.android.network.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -39,9 +40,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor,
         loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
     }

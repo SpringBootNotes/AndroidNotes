@@ -37,20 +37,18 @@ android {
 }
 
 dependencies {
-    // Compose
+    // Compose Bundle
     api(platform(libs.androidx.compose.bom))
-    api(libs.androidx.compose.ui)
-    api(libs.androidx.compose.ui.graphics)
-    api(libs.androidx.compose.ui.tooling.preview)
-    api(libs.androidx.compose.material3)
-    api(libs.androidx.compose.material3.windowSizeClass)
-    api(libs.androidx.compose.material3.adaptive)
+    api(libs.bundles.compose)
 
     // Core
     implementation(libs.androidx.core.ktx)
     
-    // Testing
-    testImplementation(libs.junit)
+    // Testing Bundle
+    testImplementation(libs.bundles.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Tooling
+    debugApi(libs.androidx.compose.ui.tooling) // Added for Previews
 }
