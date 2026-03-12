@@ -4,7 +4,9 @@ import android.content.SharedPreferences
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -27,6 +29,10 @@ class EncryptedTokenRepositoryDefaultTest {
             storage[firstArg()] = secondArg()
             editor
         }
+        every { editor.putBoolean(any(), any()) } answers {
+            storage[firstArg()] = secondArg<Boolean>().toString()
+            editor
+        }
         every { editor.apply() } returns Unit
         every { editor.clear() } answers {
             storage.clear()
@@ -34,6 +40,10 @@ class EncryptedTokenRepositoryDefaultTest {
         }
         every { sharedPrefs.getString(any(), any()) } answers {
             storage[firstArg()] ?: secondArg()
+        }
+
+        every { sharedPrefs.getBoolean(any(), any()) } answers {
+            storage[firstArg()]?.toBoolean() ?: secondArg()
         }
         repository = EncryptedTokenRepositoryDefault(sharedPrefs)
     }
@@ -82,6 +92,26 @@ class EncryptedTokenRepositoryDefaultTest {
     @Test
     fun `GIVEN userId not saved WHEN getUserId called THEN then null returned`() {
         assertEquals(null, repository.getUserId())
+    }
+
+    @Test
+    fun `WHEN setIsRememberMeEnabled called THEN isEnabled saved to preferences`() {
+        assertFalse(repository.getIsRememberMeEnabled())
+
+        repository.setIsRememberMeEnabled(true)
+
+        assertTrue(repository.getIsRememberMeEnabled())
+    }
+
+    @Test
+    fun `GIVEN isEnabled saved WHEN getIsRememberMeEnabled called THEN then isEnabled returned`() {
+        repository.setIsRememberMeEnabled(true)
+        assertTrue(repository.getIsRememberMeEnabled())
+    }
+
+    @Test
+    fun `GIVEN isEnabled not saved WHEN getIsRememberMeEnabled called THEN then false returned`() {
+        assertFalse(repository.getIsRememberMeEnabled())
     }
 
     @Test
