@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.ui.R
+import com.android.ui.components.LoadingSpinnerOverlay
 
 
 @Composable
@@ -56,6 +57,7 @@ public fun LoginScreenRoute() {
 private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
+
     LoginScreenContent(
         state = state.value,
         onEmailChanged = viewModel::onEmailChanged,
@@ -63,6 +65,10 @@ private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
         onRememberMeChecked = viewModel::onRememberMeClicked,
         onLoginButtonClicked = viewModel::onLoginButtonClicked
     )
+
+    if(state.value.isLoading) {
+        LoadingSpinnerOverlay()
+    }
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
