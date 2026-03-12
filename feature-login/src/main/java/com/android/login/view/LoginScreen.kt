@@ -53,12 +53,16 @@ import com.android.ui.components.dialogs.NetworkErrorDialog
 
 
 @Composable
-public fun LoginScreenRoute() {
-    LoginScreen()
+public fun LoginScreenRoute(navigateToNotes: () -> Unit, navigateToSignUp: () -> Unit) {
+    LoginScreen(navigateToNotes = navigateToNotes, navigateToSignUp = navigateToSignUp)
 }
 
 @Composable
-private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
+private fun LoginScreen(
+    navigateToNotes: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
 
@@ -87,13 +91,8 @@ private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is LoginEvents.NavigateToNotes -> {
-                    // Navigate to notes screen
-                }
-
-                is LoginEvents.NavigateToSignUp -> {
-                    // Navigate to sign up screen
-                }
+                is LoginEvents.NavigateToNotes -> navigateToNotes()
+                is LoginEvents.NavigateToSignUp -> navigateToSignUp()
             }
         }
     }
@@ -157,7 +156,7 @@ private fun LoginScreenContent(
 }
 
 @Composable
-private fun LoginText(modifier: Modifier = Modifier){
+private fun LoginText(modifier: Modifier = Modifier) {
     Text(
         text = stringResource(id = R.string.login_title),
         color = MaterialTheme.colorScheme.primary,
