@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -125,6 +126,8 @@ private fun LoginScreenContent(
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp)
         ) {
+            LoginText(modifier = Modifier.align(Alignment.CenterHorizontally))
+            Spacer(modifier = Modifier.height(32.dp))
             EmailTextField(
                 email = state.email,
                 onEmailChanged = onEmailChanged,
@@ -151,6 +154,17 @@ private fun LoginScreenContent(
             )
         }
     }
+}
+
+@Composable
+private fun LoginText(modifier: Modifier = Modifier){
+    Text(
+        text = stringResource(id = R.string.login_title),
+        color = MaterialTheme.colorScheme.primary,
+        style = MaterialTheme.typography.displayMedium,
+        fontWeight = FontWeight.Bold,
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -312,7 +326,7 @@ private fun LoginButton(
         Text(
             text = stringResource(id = R.string.login_button_text),
             style = MaterialTheme.typography.labelLarge,
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
@@ -327,7 +341,7 @@ private fun SignUpLink(
         Text(
             text = stringResource(id = R.string.sign_up_link_text),
             style = MaterialTheme.typography.bodyMedium,
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
             textDecoration = androidx.compose.ui.text.style.TextDecoration.Underline
         )

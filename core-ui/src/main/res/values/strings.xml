@@ -8,6 +8,7 @@
     <string name="generic_error_button_text">OK</string>
 
     <!-- Login -->
+    <string name="login_title">Login</string>
     <string name="email_field_label">Email</string>
     <string name="email_field_placeholder">name@email.com</string>
     <string name="invalid_email_error">Please enter a valid email</string>
