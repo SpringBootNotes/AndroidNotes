@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="network_error_title">Network Error</string>
+    <string name="network_error_message">Please check your internet connection and try again.</string>
+    <string name="network_error_button_text">OK</string>
+    <string name="generic_error_title">Oops!</string>
+    <string name="generic_error_message">Something went wrong. Please try again later.</string>
+    <string name="generic_error_button_text">OK</string>
+
+    <!-- Login -->
     <string name="email_field_label">Email</string>
     <string name="email_field_placeholder">name@email.com</string>
     <string name="invalid_email_error">Please enter a valid email</string>
@@ -10,10 +18,7 @@
     <string name="show_password_content_description">Show password</string>
     <string name="login_button_text">Login</string>
     <string name="remember_me_toggle_label">Remember me</string>
-    <string name="network_error_title">Network Error</string>
-    <string name="network_error_message">Please check your internet connection and try again.</string>
-    <string name="network_error_button_text">OK</string>
-    <string name="generic_error_title">Oops!</string>
-    <string name="generic_error_message">Something went wrong. Please try again later.</string>
-    <string name="generic_error_button_text">OK</string>
+    <string name="invalid_credentials_title">Login Failed</string>
+    <string name="invalid_credentials_message">The email or password you entered is incorrect. Please try again.</string>
+    <string name="invalid_credentials_button_text">Try Again</string>
 </resources>
