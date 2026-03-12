@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -59,7 +60,8 @@ private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
         state = state.value,
         onEmailChanged = viewModel::onEmailChanged,
         onPasswordChanged = viewModel::onPasswordChanged,
-        onRememberMeChecked = viewModel::onRememberMeClicked
+        onRememberMeChecked = viewModel::onRememberMeClicked,
+        onLoginButtonClicked = viewModel::onLoginButtonClicked
     )
 
     LaunchedEffect(Unit) {
@@ -82,7 +84,8 @@ private fun LoginScreenContent(
     state: LoginState,
     onEmailChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
-    onRememberMeChecked: (Boolean) -> Unit
+    onRememberMeChecked: (Boolean) -> Unit,
+    onLoginButtonClicked: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -115,8 +118,12 @@ private fun LoginScreenContent(
                 onCheckedChange = onRememberMeChecked,
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(32.dp))
-            //LoginButton()
+            Spacer(modifier = Modifier.height(20.dp))
+            LoginButton(
+                enabled = state.loginButtonEnabled,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                onClick = onLoginButtonClicked
+            )
             Spacer(modifier = Modifier.height(32.dp))
             //SignUpLink()
         }
@@ -263,6 +270,31 @@ private fun RememberMeToggle(
     }
 }
 
+@Composable
+private fun LoginButton(
+    enabled: Boolean,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = modifier.height(50.dp),
+        shape = RoundedCornerShape(4.dp),
+        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+        )
+    ) {
+        Text(
+            text = stringResource(id = R.string.login_button_text),
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+    }
+}
+
 @Preview
 @Composable
 private fun LoginScreenContentPreview() {
@@ -270,5 +302,7 @@ private fun LoginScreenContentPreview() {
         state = LoginState(),
         onEmailChanged = {},
         onPasswordChanged = {},
-        onRememberMeChecked = {})
+        onRememberMeChecked = {},
+        onLoginButtonClicked = {}
+    )
 }

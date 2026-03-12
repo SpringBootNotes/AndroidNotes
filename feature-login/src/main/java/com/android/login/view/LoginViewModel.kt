@@ -28,8 +28,11 @@ internal class LoginViewModel @Inject constructor(
     private val _events = Channel<LoginEvents>()
     val events = _events.receiveAsFlow()
 
-    internal fun onLoginButtonClicked(email: String, password: String) = viewModelScope.launch(dispatcher) {
+    internal fun onLoginButtonClicked() = viewModelScope.launch(dispatcher) {
         _state.update { it.copy(isLoading = true) }
+        val email = _state.value.email
+        val password = _state.value.password
+
 
         try {
             val result = loginUseCase(email, password)
@@ -114,7 +117,7 @@ internal data class LoginState(
     val showInvalidEmailError = email.isNotBlank() && !emailRegex.matches(email)
     val emailIsValid: Boolean = email.isNotBlank() && emailRegex.matches(email)
     val loginButtonEnabled: Boolean =
-        email.isNotBlank() && !password.isNotBlank() && emailIsValid
+        email.isNotBlank() && password.isNotBlank() && emailIsValid
 }
 
 internal sealed class LoginEvents {
