@@ -2,6 +2,7 @@ package com.android.login.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.data.domain.SetIsRememberMeEnabledUseCase
 import com.android.dispatchers.IoDispatcher
 import com.android.login.domain.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.update
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
+    private val setIsRememberMeEnabledUseCase: SetIsRememberMeEnabledUseCase,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
@@ -33,7 +35,7 @@ internal class LoginViewModel @Inject constructor(
             val result = loginUseCase(email, password)
 
             when (result) {
-                is LoginUseCase.LoginResult.Success -> _events.send(LoginEvents.NavigateToNotes)
+                is LoginUseCase.LoginResult.Success -> handleLoginSuccess()
 
                 is LoginUseCase.LoginResult.InvalidCredentialsError -> showInvalidCredentialsErrorDialog()
 
@@ -43,6 +45,13 @@ internal class LoginViewModel @Inject constructor(
             }
         } finally {
             _state.update { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun handleLoginSuccess() {
+        viewModelScope.launch(dispatcher) {
+            setIsRememberMeEnabledUseCase(isEnabled = _state.value.rememberMeIsChecked)
+            _events.send(LoginEvents.NavigateToNotes)
         }
     }
 
@@ -102,10 +111,10 @@ internal data class LoginState(
     val showGenericErrorDialog: Boolean = false
 ) {
     private val emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$".toRegex()
-    val showInvalidEmailError = !email.isNullOrBlank() && !emailRegex.matches(email)
+    val showInvalidEmailError = !email.isNotBlank() && !emailRegex.matches(email)
     val emailIsValid: Boolean = email.isNotBlank() && emailRegex.matches(email)
     val loginButtonEnabled: Boolean =
-        !email.isNullOrBlank() && !password.isNullOrBlank() && emailIsValid
+        email.isNotBlank() && !password.isNotBlank() && emailIsValid
 }
 
 internal sealed class LoginEvents {
