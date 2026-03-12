@@ -21,4 +21,5 @@
     <string name="invalid_credentials_title">Login Failed</string>
     <string name="invalid_credentials_message">The email or password you entered is incorrect. Please try again.</string>
     <string name="invalid_credentials_button_text">Try Again</string>
+    <string name="sign_up_link_text">Don\'t have an account? Sign up</string>
 </resources>

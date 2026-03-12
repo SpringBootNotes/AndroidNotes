@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -65,7 +66,8 @@ private fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
         onEmailChanged = viewModel::onEmailChanged,
         onPasswordChanged = viewModel::onPasswordChanged,
         onRememberMeChecked = viewModel::onRememberMeClicked,
-        onLoginButtonClicked = viewModel::onLoginButtonClicked
+        onLoginButtonClicked = viewModel::onLoginButtonClicked,
+        onSignUpClicked = viewModel::onSignUpClicked
     )
 
     LoginDialogs(
@@ -102,7 +104,8 @@ private fun LoginScreenContent(
     onEmailChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     onRememberMeChecked: (Boolean) -> Unit,
-    onLoginButtonClicked: () -> Unit
+    onLoginButtonClicked: () -> Unit,
+    onSignUpClicked: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -142,7 +145,10 @@ private fun LoginScreenContent(
                 onClick = onLoginButtonClicked
             )
             Spacer(modifier = Modifier.height(32.dp))
-            //SignUpLink()
+            SignUpLink(
+                onSignUpClick = onSignUpClicked,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
         }
     }
 }
@@ -313,6 +319,22 @@ private fun LoginButton(
 }
 
 @Composable
+private fun SignUpLink(
+    onSignUpClick: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    TextButton(onClick = onSignUpClick, modifier = modifier) {
+        Text(
+            text = stringResource(id = R.string.sign_up_link_text),
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            textDecoration = androidx.compose.ui.text.style.TextDecoration.Underline
+        )
+    }
+}
+
+@Composable
 private fun LoginDialogs(
     showInvalidCredentialsErrorDialog: Boolean,
     showNetworkErrorDialog: Boolean,
@@ -321,13 +343,13 @@ private fun LoginDialogs(
     dismissNetworkErrorDialog: () -> Unit,
     dismissGenericErrorDialog: () -> Unit
 ) {
-    if(showInvalidCredentialsErrorDialog) {
+    if (showInvalidCredentialsErrorDialog) {
         InvalidCredentialsErrorDialog(onDismissRequest = dismissInvalidCredentialsDialog)
     }
-    if(showNetworkErrorDialog) {
+    if (showNetworkErrorDialog) {
         NetworkErrorDialog(onDismissRequest = dismissNetworkErrorDialog)
     }
-    if(showGenericErrorDialog) {
+    if (showGenericErrorDialog) {
         GenericErrorDialog(onDismissRequest = dismissGenericErrorDialog)
     }
 }
@@ -340,6 +362,7 @@ private fun LoginScreenContentPreview() {
         onEmailChanged = {},
         onPasswordChanged = {},
         onRememberMeChecked = {},
-        onLoginButtonClicked = {}
+        onLoginButtonClicked = {},
+        onSignUpClicked = {}
     )
 }
