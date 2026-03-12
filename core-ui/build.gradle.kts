@@ -48,4 +48,7 @@ dependencies {
     testImplementation(libs.bundles.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Tooling
+    debugApi(libs.androidx.compose.ui.tooling) // Added for Previews
 }
