@@ -71,7 +71,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     internal fun onSignUpClicked() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             _events.send(LoginEvents.NavigateToSignUp)
         }
     }
